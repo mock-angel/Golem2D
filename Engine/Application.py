@@ -32,31 +32,33 @@ class Application:
         new_window.Open()
         
         self.m_windowsMap[new_window.getWindowId()] = new_window
-        
-    def Start(self):
-        pass
+
+
+######## Dont use this for single window ########
+#    def Start(self):
+#        pass
     
-    def Run(self):
+#    def Run(self):
 #        self.loadModules()
 #        self.loadScripts()
 #        self.startEngine()
 #        self.runEngine()
-        pass
+#        pass
     
-    def processEvents(self):
-        pass
+#    def processEvents(self):
+#        pass
 #        e = event = SDL_Event()
 #        
 #        while len(self.m_windowsMap)!=0 and SDL_WaitEvent(ctypes.byref(event)) != 0:
 #            pass
     
-    def ApplicationLoop(self):
-        
-        while(not self.closed):
-            processEvents();
+#    def ApplicationLoop(self):
+#        
+#        while(not self.closed):
+#            processEvents();
+#            
+#            self.Quit();
             
-            self.Quit();
-            
-    def Quit(self):
-        self.closed = True
+#    def Quit(self):
+#        self.closed = True
     
