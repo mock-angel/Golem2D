@@ -6,8 +6,8 @@ import Golem
 
 if __name__ == "__main__":
     app = Golem.Application()
-#    window = app.createNewWindow("PyGolem", window = config.main_app, size = config.SCREEN_SIZE)\
-#                  .setBackgroundColor(*config.SCREEN_COLOR)
+    window = app.CreateWindow("PyGolem",  size = (200, 300))\
+#                  .setBackgroundColor(*config.SCREEN_COLOR) window = config.main_app,
     
     
     app.Start()
