@@ -10,4 +10,4 @@ if __name__ == "__main__":
 #                  .setBackgroundColor(*config.SCREEN_COLOR) window = config.main_app,
     
     
-    app.Start()
+#    app.Start()
