@@ -7,21 +7,32 @@ import Golem
 #        self.Name = ""
 #        self.Size = (592, 460)
 
-class Application():
-    _window = None
+class Application:
+    _app = None
     def __new__(self):
-        if (Application._window != None):
-            print("Application Allready Exists. Cannot create duplicate application.");
-        else: window = self
+        instance = object.__new__(self)
         
-        return weakref.proxy(self);
+        if (Application._app != None):
+            return weakref.proxy(instance);
+            raise (RuntimeError, "Count not create Application. Application Allready Exists." )
+        else: 
+            _app = self
+            return instance
             
+    
+    def __init__(self):
+        self.m_windowsMap = {}
+        
     def __del__(self):
         pass
     
-    def CreateWindow(self, title = "", size = (592, 460)):
-        pass
-    
+    def CreateWindow(self, title = "", window = None , size = (592, 460)):
+        new_window = Golem.Window() if not window else window()
+        new_window.size = size
+        new_window.Open()
+        
+        self.m_windowsMap[new_window.getWindowId()] = new_window
+        
     def Start(self):
         pass
     
