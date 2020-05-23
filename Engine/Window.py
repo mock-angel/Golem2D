@@ -3,6 +3,21 @@ import ctypes
 
 import Golem
 
+from OpenGL import GL, GLU
+from OpenGL.GL import shaders
+from OpenGL.arrays import vbo
+
+import time
+
+#from decorator import decorator
+
+
+class Time(object):
+    deltaTime = 0
+    fixedDeltaTime = 0
+    framesPerSecond = 0
+
+
 class WindowOffLoad( object ):
     def __init__(self):
         pass
@@ -31,7 +46,9 @@ class WindowBehaviour( object ):
         
         self.m_sdlWindow = None
         
-        self.m_scene = None # TODO: Not Implemented yet.
+#        self.m_scene = None # TODO: Not Implemented yet.
+        
+        self.bgColor = 0, 0, 0, 1
         
     def isClosed(self):
         return self.m_closed
@@ -58,6 +75,7 @@ class WindowBehaviour( object ):
     @property
     def size(self):
         return self.m_size
+        
     @size.setter
     def size(self, t_size):
         self.m_size = t_size
@@ -95,7 +113,10 @@ class WindowBehaviour( object ):
         self.m_mouseFocus = self.m_keyboardFocus = True
         SDL_RaiseWindow(self.m_window)
 
-    
+    def SetBackgroundColor(self, r, g, b):
+        self.bgColor = r, g, b
+        
+        
 class WindowGLHandler( object ):
     def __init__(self):
         self.m_window = None
@@ -103,34 +124,34 @@ class WindowGLHandler( object ):
     def __del__(self):
         pass
     
-    def glCreateContext(self):
-        self.context = SDL_GL_CreateContext(self.m_window)
+#    def glCreateContext(self):
+#        self.m_context = SDL_GL_CreateContext(self.m_window)
     
     def glSetViewport(self):
-        glViewport(0, 0, self.m_width, self.m_height);
+        GL.glViewport(0, 0, self.m_width, self.m_height);
         
     
     def glSetup(self):
-        glCreateContext()
-        glSetViewport()
+        self.glCreateContext()
+        self.glSetViewport()
         
     def glClear(self):
-        glClearColor(0.2, 0.3, 0.3, 1.0);
+        GL.glClearColor(0.2, 0.3, 0.3, 0.0);
         
-        GL.glClear(GL.GL_COLOR_BUFFER_BIT);
+        GL.glClear(GL.GL_COLOR_BUFFER_BIT)# | GL.GL_DEPTH_BUFFER_BIT);
     
     def glSwap(self):
         SDL_GL_SwapWindow(self.m_window);
     
     def glClearAndSwap(self):
-        glClearColor(0.2, 0.3, 0.3, 1.0);
+        GL.glClearColor(0.2, 0.3, 0.3, 1.0);
         GL.glClear(GL.GL_COLOR_BUFFER_BIT);
         
         SDL_GL_SwapWindow(self.m_window);
 
 class WindowEvent( object ):
     def __init__(self):
-        pass
+        self.m_event = SDL_Event()
     
     def __del__(self):
         pass
@@ -148,8 +169,10 @@ class WindowEvent( object ):
                 
                 self.m_width = e.window.data1;
                 self.m_height = e.window.data2;
-
-                GL.glViewport(0, 0, self.m_width, self.m_height);
+                
+                
+                self.glSetViewport()
+                #GL.glViewport(0, 0, self.m_width, self.m_height);
                 
             if e.window.event == SDL_WINDOWEVENT_EXPOSED:
                 pass
@@ -184,7 +207,8 @@ class WindowEvent( object ):
                 self.m_closed = True;
                 
     def _process_events(self):
-        e = event = SDL_Event()
+        
+        event = e = self.m_event;
         
         while (SDL_PollEvent(ctypes.byref(event)) != 0):
             #TODO: implement later.
@@ -194,11 +218,23 @@ class WindowEvent( object ):
                 
             if( e.type == SDL_WINDOWEVENT ):
                 self._windowEvent(e);
-                
-class Window( WindowBehaviour, WindowOffLoad, WindowGLHandler, WindowEvent ):
+            
+class WindowWorldHandler( object ):
+    
+    def __init__( self ):
+        self.m_nodeManager = Golem.NodeManager()
+        
+        
+        pass
+        
+        
+class Window( WindowBehaviour, WindowOffLoad, WindowGLHandler, WindowEvent, WindowWorldHandler ):
     DEFAULTPOS = SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED
     DEFAULTWINDOWFLAGS = SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL
-    DEFAULTRENDERFLAGS = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
+#    DEFAULTWINDOWFLAGS = SDL_WINDOW_OPENGL
+#    DEFAULTRENDERFLAGS = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
+    
+    instance = None
     
     def __init__(self, title = bytes(b"No Title"), width = 800, height = 600):
         """Initialize all the default variables for the window."""
@@ -206,33 +242,45 @@ class Window( WindowBehaviour, WindowOffLoad, WindowGLHandler, WindowEvent ):
         WindowBehaviour.__init__(self)
         WindowGLHandler.__init__(self)
         WindowEvent.__init__(self)
+        WindowWorldHandler.__init__(self)
+        
+        Window.instance = self
         
         self.m_title = title
         self.size = (width, height)
         
         self.m_screen_color = (45, 45, 45)
         
+        self.m_context = None
+        
         self.m_windowStartPos = Golem.Window.DEFAULTPOS
         self.m_windowFlags = Golem.Window.DEFAULTWINDOWFLAGS
-        self.m_rendererFLags = Golem.Window.DEFAULTRENDERFLAGS
-    
+#        self.m_rendererFLags = Golem.Window.DEFAULTRENDERFLAGS
+        
+        Golem.Camera()
     def __del__(self):
 #        SDL_DestroyRenderer(self.m_renderer);
+        SDL_GL_DeleteContext(self.m_context)
         SDL_DestroyWindow(self.m_window);
         
         print("~Deleted Window")
         
     def Open(self):
         """Open the window, i.e. create it and show it to the user."""
-        # Check if sdl starts successfully.
+        
         if SDL_Init(SDL_INIT_VIDEO) != 0:
             print(SDL_GetError())
             return -1
-            
         
-        self.m_window = m_window = SDL_CreateWindow(self.m_title,
+        self.m_window = window = SDL_CreateWindow(self.m_title,
                               self.m_windowStartPos[0], self.m_windowStartPos[1],
                               self.m_width, self.m_height, self.m_windowFlags)
+        
+        if not window:
+            print(SDL_GetError())
+            return -1
+
+        
         print("Opened Window")
         
         self.hide()
@@ -241,11 +289,13 @@ class Window( WindowBehaviour, WindowOffLoad, WindowGLHandler, WindowEvent ):
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3)
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE)
         
-        self.context = None
+        self.m_context = SDL_GL_CreateContext(self.m_window)
+        
+        SDL_GL_SetSwapInterval(1);
+        
+        self.glSetViewport()
         
         self.title = self.m_title
-#        self.m_windowSurface = SDL_GetWindowSurface(m_window)
-        #opened
         
         self.show()
         self.game_loop()
@@ -253,16 +303,51 @@ class Window( WindowBehaviour, WindowOffLoad, WindowGLHandler, WindowEvent ):
     
     def _render(self):
         #render window stuff here.
-        pass
-    
+        
+        GL.glClearColor ( *self.bgColor );
+        GL.glClear ( GL.GL_COLOR_BUFFER_BIT );
+        
+#        SDL_Delay(2000);
+
+##        /* Swap our back buffer to the front */
+        SDL_GL_SwapWindow(self.m_window);
+        
     def game_loop(self):
         
+        current_time = time.time()
+        prev_time = time.time()
+        
+        total_time = 0
+        
+        fps_update_time = 0
+        fps_count = 0
+        
         while not self.m_closed:
+            prev_time = current_time
+            current_time = time.time()
+            
+            # Set Time.deltaTime
+            Time.deltaTime = deltaTime = current_time - prev_time
+            
+            fps_count += 1
+            
+            total_time += deltaTime
+            
+            if(fps_update_time <= total_time):
+                
+                fps_update_time += 1
+                
+                Time.framesPerSecond = fps_count
+                
+                print(fps_count)
+                
+                fps_count = 0
+                
             self._process_events()
             
             self.update()
             
-            if self.m_shown: self._render()
+            if self.m_shown and not self.m_minimized: self._render()
 
     #called when window starts.
     def start(self):
