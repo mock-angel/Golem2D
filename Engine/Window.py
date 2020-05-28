@@ -48,7 +48,7 @@ class WindowBehaviour( object ):
         
 #        self.m_scene = None # TODO: Not Implemented yet.
         
-        self.bgColor = 0, 0, 0, 1
+        self.bgColor = 0, .7, .3, 1
         
     def isClosed(self):
         return self.m_closed
@@ -223,7 +223,7 @@ class WindowWorldHandler( object ):
     
     def __init__( self ):
         self.m_nodeManager = Golem.NodeManager()
-        
+        self.m_shaderManager = Golem.ShaderManager()
         
         pass
         
@@ -257,7 +257,7 @@ class Window( WindowBehaviour, WindowOffLoad, WindowGLHandler, WindowEvent, Wind
         self.m_windowFlags = Golem.Window.DEFAULTWINDOWFLAGS
 #        self.m_rendererFLags = Golem.Window.DEFAULTRENDERFLAGS
         
-        Golem.Camera()
+#        Golem.Camera()
     def __del__(self):
 #        SDL_DestroyRenderer(self.m_renderer);
         SDL_GL_DeleteContext(self.m_context)
@@ -298,19 +298,22 @@ class Window( WindowBehaviour, WindowOffLoad, WindowGLHandler, WindowEvent, Wind
         self.title = self.m_title
         
         self.show()
+        
+        self.start()
         self.game_loop()
         
     
-    def _render(self):
+    def _render_sequence(self):
         #render window stuff here.
         
         GL.glClearColor ( *self.bgColor );
-        GL.glClear ( GL.GL_COLOR_BUFFER_BIT );
+        GL.glClear ( GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT );
         
-#        SDL_Delay(2000);
-
-##        /* Swap our back buffer to the front */
-        SDL_GL_SwapWindow(self.m_window);
+        # Application extra draws
+        self.render()
+        
+        # node.render on all nodes.
+        self.m_nodeManager.render_nodes()
         
     def game_loop(self):
         
@@ -342,13 +345,18 @@ class Window( WindowBehaviour, WindowOffLoad, WindowGLHandler, WindowEvent, Wind
                 print(fps_count)
                 
                 fps_count = 0
-                
+            
+            # Event calls
             self._process_events()
             
-            self.update()
+            # Update calls
+            self.update()       #user function.
+            self.m_nodeManager.update_nodes()   # update all nodes.
             
-            if self.m_shown and not self.m_minimized: self._render()
-
+            # Render calls
+            if self.m_shown and not self.m_minimized: self._render_sequence();
+            SDL_GL_SwapWindow(self.m_window);
+            
     #called when window starts.
     def start(self):
         pass
@@ -356,5 +364,8 @@ class Window( WindowBehaviour, WindowOffLoad, WindowGLHandler, WindowEvent, Wind
     def update(self):
         pass
     
+    def render(self):
+        pass
+        
     def close(self):
         pass

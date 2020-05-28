@@ -4,29 +4,40 @@ import random
 import Golem
 
 class NodeManager:
-#    instance = None
     def __init__( self ):
-        self.nodes_list = []
+        self.nodes_map = dict()
         
-        self.nodes_map = {}
-        
-#        NodeManager.instance = self
-        
+        self.__cache_values = list()
     def __del__( self ):
-        #NodeManager.instance = None
         pass
         
     def register_node( self, node ):
-        self.nodes_list.append(node)
-        
+    
         self.nodes_map[node.m_rid] = node
+    
+    def discharge_node( self, node ):
         
-    def update(self):
-        values = self.nodes_map.values()
+        self.nodes_map.pop(node.m_rid, None)
+    
+    def update_nodes(self):
+        
+        self.__cache_values = values = self.nodes_map.values()
         
         for node in values:
-            node.update()
         
+            try: node.update()
+            
+            except: print("Node.update(): Exception occurred during node update.")
+    
+    def render_nodes(self):
+        values = self.__cache_values
+        
+        for node in values:
+        
+            try: node.render()
+            
+            except: print("Node.render(): Exception occurred during node render.")
+            
 class NodeUserFunctions( object ):
     def __init__(self):
         pass
@@ -73,12 +84,8 @@ class Node( NodeUserFunctions ):
     def delete_child_node( self, node):
         node = self.m_nodes.pop(node.m_name, None)
         
-        if (node != None):
-            del node
+        if (node != None): del node
             
-    def _load(self):
-        pass
-    
     def get_rid(self):
         return self.m_rid
     
@@ -122,11 +129,9 @@ class CallbacksContainer:
     
     def execute(self):
         for callback in self.m_callbacks:
-            try:
-                callback()
+            try: callback()
                 
-            except:
-                print("Exception occurred")
+            except: print("Exception occurred")
                 
 class ButtonScene( Node ):
     def __init__(self):
