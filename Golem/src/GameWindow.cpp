@@ -5,14 +5,22 @@
  *      Author: anantha
  */
 
+#include "GameWindow.h"
+
 #include <iostream>
 
-#include "GameWindow.h"
 #include "Shader.h"
+#include "Math/Vector2.h"
+#include "Node.h"
 
 GameWindow::GameWindow() {
     // TODO Auto-generated constructor stub
-    std::cout << "hello";
+    std::cout << "hello" << std::endl;
+
+    Golem::Vector2 vec(0, 1.999);
+
+    Golem::Node* node = new Golem::Node(this);
+    getNodeHandler()->addNode(node);
 }
 
 GameWindow::~GameWindow() {
@@ -29,6 +37,7 @@ void GameWindow::awake(){
 }
 
 void GameWindow::render(){
+
 
 
 }

@@ -75,6 +75,7 @@ void Window::GameLoop() {
         processEvents();
 
         update();
+        m_nodeManager.updateNodes();
 
         if(m_shown and not m_minimized)
             render_sequence();

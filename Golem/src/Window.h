@@ -9,6 +9,7 @@
 #define WINDOW_H_
 
 #include <SDL2/SDL.h>
+
 #include "NodeManager.h"
 #include "WindowEvents.h"
 #include "WindowRenderer.h"
@@ -60,7 +61,7 @@ public:
 
     void Open();
 
-    NodeManager* getNodeHandler();//TODO: FIXME: Naming convention is odd.
+    NodeManager* getNodeHandler() override;//TODO: FIXME: Naming convention is odd.
 
 protected:
     SDL_Renderer* m_renderer = nullptr;
@@ -78,7 +79,7 @@ private:
     void GameLoop();
 
     //Handles window events.
-    void handleWindowEvent( SDL_Event& e );
+    void handleWindowEvent( SDL_Event& e ) override;
 
     friend class Time;
     //friend class Application;

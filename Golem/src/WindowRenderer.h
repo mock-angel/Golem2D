@@ -10,6 +10,8 @@
 
 #include <iostream>
 
+#include "NodeManager.h"
+
 namespace Golem {
 
 class WindowRenderer {
@@ -26,6 +28,7 @@ protected:
     int m_width = 480;
     int m_height = 480;
 
+    virtual NodeManager* getNodeHandler() = 0;
 };
 
 } /* namespace Golem */

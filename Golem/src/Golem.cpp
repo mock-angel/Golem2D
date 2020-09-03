@@ -6,11 +6,13 @@
 // Description : Hello World in C++, Ansi-style
 //============================================================================
 
-#include <iostream>
 #include<SDL2/SDL.h>
+
+#include <iostream>
 
 #include "Application.h"
 #include "GameWindow.h"
+
 using namespace std;
 
 namespace Golem{

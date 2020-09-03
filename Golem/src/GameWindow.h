@@ -14,9 +14,9 @@ class GameWindow: public Golem::Window {
 public:
     GameWindow();
     virtual ~GameWindow();
-    void render();
+    void render() override;
 
-    void awake();
+    void awake() override;
 };
 
 #endif /* GAMEWINDOW_H_ */

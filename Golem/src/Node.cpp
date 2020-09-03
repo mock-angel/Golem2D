@@ -5,10 +5,19 @@
  *      Author: anantha
  */
 
-#include <algorithm>
-
 #include "Node.h"
+
+#include <assert.h>
+
+#include <algorithm>
+#include <iostream>
+#include <type_traits>
+
 #include "Window.h"
+#include "Transform.h"
+#include "Math/Vector3.h"
+#include "Math/Quaternion.h"
+
 
 namespace Golem {
 
@@ -46,7 +55,7 @@ void Node::RemoveChild(Node* t_child){
         m_childNodesUMap.erase(t_child->GetRID());
 }
 
-void Node::RemoveChild(int t_rid){
+/*void Node::RemoveChild(int t_rid){
 
     if(childHandleType == VECTORS){
         //Remove child from vector.
@@ -64,19 +73,65 @@ void Node::RemoveChild(int t_rid){
 
     }else if(childHandleType == UNORDERED_MAPS)
         m_childNodesUMap.erase(t_rid);
-}
+}*/
 
 //User Functions
 void Node::Awake(){
-
+    print("Node::Awake() called");
 }
 
 void Node::Update(){
+    print("Node::Update() called");
+}
+
+void Node::Destroy(){
+    m_window->getNodeHandler()->DestroyNode(this);
+    print("Node::destroy() called");
+}
+
+template <typename T>
+T Node::GetComponent(){
+    bool assertVal = !instanceof<Node, T>();
+    assert( assertVal );
+
+    std::list<Component*>::iterator it;
+
+    for(it = m_nodeComponents.begin(); it != m_nodeComponents.end(); ++it)
+         return *it;
+            //std::is_convertible<>;
 
 }
 
-void Node::destroy(){
-    m_window->getNodeHandler()->DestroyNode(this);
+template <typename T>
+     T* Node::Instantiate(Transform transform){
+
+        bool assertVal = !instanceof<Node, T>();
+        assert( assertVal );
+
+        T* createdNode = new T();
+
+        //if(createdNode.is_base_of<Node>());
+
+        //createdNode->parentTransform = transform;
+
+        return createdNode;
+    };
+
+template <typename T>
+     T* Node::Instantiate(Vector3 position, Quaternion rotation){
+
+        bool assertVal = !instanceof<Node, T>();
+        assert( assertVal );
+
+        T* createdNode = new T();
+        //createdNode->parentTransform = transform;
+
+        return createdNode;
+    };
+
+void Node::print(std::string _str){
+
+    std::cout << _str << std::endl;
 }
 
 } /* namespace Golem */

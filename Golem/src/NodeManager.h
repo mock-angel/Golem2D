@@ -27,6 +27,8 @@ public:
     void updateNodes();
     void RenderNodes();
 
+    void RenderComponents();
+
     void DestroyNode(Node* t_node);
 
 private:

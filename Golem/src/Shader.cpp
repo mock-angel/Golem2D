@@ -76,14 +76,80 @@ Shader::Shader(std::string vertexPath, std::string fragmentPath){
     // delete the shaders as they're linked into our program now and no longer necessary
     glDeleteShader(vertex);
     glDeleteShader(fragment);
+
+    isCompiled = true;
 }
+
+Shader::Shader(){
+
+}
+
+/*
+void Shader::loadFragmentShader(std::string fragmentPath){
+
+}
+
+void Shader::loadShader(std::string shaderPath){
+
+}
+*/
+/*
+Shader::Shader(std::string shaderPath){
+
+    return;
+    std::cout << "Shader::Shader started" <<std::endl;
+    std::string shaderCode;
+
+    std::ifstream shaderFile;
+
+    // ensure ifstream objects can throw exceptions:
+    shaderFile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
+    std::cout << "Construct Shader"<<std::endl;
+    try
+    {
+        // open files
+        shaderFile.open(shaderCode);
+        std::stringstream shaderStream;
+        // read file's buffer contents into streams
+        shaderStream << shaderFile.rdbuf();
+        // close file handlers
+        shaderFile.close();
+
+        // convert stream into string
+        shaderCode   = shaderStream.str();
+    }
+    catch (std::ifstream::failure& e)
+    {
+        std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
+        return;
+    }
+    std::cout << "Construct Shader"<<std::endl;
+    const char* ShaderCode = shaderCode.c_str();
+
+    // 2. compile shaders
+    unsigned int shaderInt;
+    // vertex shader
+    shaderInt = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(shaderInt, 1, &ShaderCode, NULL);
+    glCompileShader(shaderInt);
+    checkCompileErrors(shaderInt, "VERTEX");
+
+    // shader Program
+    ID = glCreateProgram();
+    glAttachShader(ID, shaderInt);
+    glLinkProgram(ID);
+    checkCompileErrors(ID, "PROGRAM");
+    // delete the shaders as they're linked into our program now and no longer necessary
+    glDeleteShader(shaderInt);
+}
+*/
 
 Shader::~Shader() {
     // TODO Auto-generated destructor stub
 }
 
 void Shader::use(){
-    glUseProgram(ID);
+    if(isCompiled) glUseProgram(ID);
 }
 
 // utility uniform functions

@@ -28,7 +28,7 @@ void NodeManager::DestroyNode(Node* t_node){
 
 void NodeManager::addNode(Node* t_node){
     m_nodes_umap.insert({t_node->GetRID(), t_node});
-    m_nodeLinkedList.remove(t_node);
+    m_nodeLinkedList.insert(t_node);
 }
 
 void NodeManager::removeNode(Node* t_node){
@@ -39,7 +39,7 @@ void NodeManager::removeNode(Node* t_node){
 void NodeManager::expungeNode(Node* t_node){
     removeNode(t_node);
     //Do more stuff here.
-    t_node->destroy();
+    t_node->Destroy();
 }
 
 void NodeManager::updateNodes(){
