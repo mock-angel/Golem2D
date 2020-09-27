@@ -11,8 +11,11 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <SDL2/SDL_opengl.h>
-
+#include <memory>
 #include <iostream>
+
+#include "Game.h"
+
 namespace Golem {
 
 WindowRenderer::~WindowRenderer(){
@@ -24,7 +27,8 @@ void WindowRenderer::render_sequence(){
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
     //std::cout<<m_width;
 
-    getNodeHandler()->RenderNodes();
+    //getNodeHandler()->RenderNodes();
+    getGame()->render();
 
     render();
 }

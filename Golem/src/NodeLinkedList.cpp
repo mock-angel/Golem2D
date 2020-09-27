@@ -29,7 +29,7 @@ void NodeLinkedList::insert(Node* node) {
     else m_front = m_rear = node;
 }
 
-void NodeLinkedList::remove(Node* node) {
+void NodeLinkedList::remove(Node*node) {
 
     Node* next_node = node->m_next_node;
     Node* prev_node = node->m_prev_node;

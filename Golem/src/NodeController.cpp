@@ -5,44 +5,37 @@
  *      Author: anantha
  */
 
-#include "NodeManager.h"
+#include "NodeController.h"
 
 namespace Golem {
 
-NodeManager::NodeManager() {
+NodeController::NodeController() {
     // TODO Auto-generated constructor stub
-
+    Node::print("NodeController:: constructed");
 }
 
-NodeManager::~NodeManager() {
+NodeController::~NodeController() {
     // TODO Auto-generated destructor stub
+    Node::print("NodeController:: destructed");
 }
 
-void NodeManager::DestroyNode(Node* t_node){
 
-    m_nodeLinkedList.remove(t_node);
 
-    delete t_node;
-
-}
-
-void NodeManager::addNode(Node* t_node){
+void NodeController::addNode(std::shared_ptr<Node> t_node){
     m_nodes_umap.insert({t_node->GetRID(), t_node});
-    m_nodeLinkedList.insert(t_node);
+    m_nodeLinkedList.insert(t_node.get());
+
+    Node::print("add Node done");
 }
 
-void NodeManager::removeNode(Node* t_node){
+void NodeController::removeNode(std::shared_ptr<Node> t_node){
     m_nodes_umap.erase(t_node->GetRID());
-    m_nodeLinkedList.remove(t_node);
+    m_nodeLinkedList.remove(t_node.get());
 }
 
-void NodeManager::expungeNode(Node* t_node){
-    removeNode(t_node);
-    //Do more stuff here.
-    t_node->Destroy();
-}
+void NodeController::updateNodes(){
 
-void NodeManager::updateNodes(){
+    int nodeCount = 0;
 
     if(!m_nodeLinkedList.isEmpty()){
         Node* front = m_nodeLinkedList.front();
@@ -51,13 +44,16 @@ void NodeManager::updateNodes(){
         while(searching != nullptr) {
             searching->Update();
             searching = searching->next();
+
+            nodeCount++;
         }
 
     }
 
+    Node::print(std::string("NodeController::update(): nodecount ") + std::to_string(nodeCount) );
 }
 
-void NodeManager::RenderNodes(){
+void NodeController::RenderNodes(){
 
 }
 

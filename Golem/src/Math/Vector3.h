@@ -18,7 +18,9 @@ class Vector3 {
     float x = 0, y = 0, z = 0;
 
 public:
+    Vector3();
     Vector3(float t_x, float t_y, float t_z);
+    //constexpr Vector3(const Golem::Vector3&);
 
     float getX() const;
     float getY() const;

@@ -15,6 +15,7 @@
 
 #include "Window.h"
 #include "Time.h"
+#include "Game.h"
 
 using namespace std;
 
@@ -29,6 +30,7 @@ Window::Window() {
 
 Window::~Window() {
     // TODO Auto-generated destructor stub
+    Node::print("Window::destroyed...");
 }
 
 void Window::GameLoop() {
@@ -38,10 +40,8 @@ void Window::GameLoop() {
     auto start_time = std::chrono::system_clock::now();
     auto current_time = start_time;
     auto prev_time = start_time;
-
     std::chrono::duration<double> deltaTime_seconds = current_time-prev_time; //elapsed_seconds.count()
     std::chrono::duration<double> elapsed_seconds = current_time-start_time; //elapsed_seconds.count()
-
     std::chrono::duration<double>  fps_update_time = current_time-start_time;
     fps_update_time++;
 
@@ -75,7 +75,7 @@ void Window::GameLoop() {
         processEvents();
 
         update();
-        m_nodeManager.updateNodes();
+        //m_nodeManager.updateNodes();
 
         if(m_shown and not m_minimized)
             render_sequence();
@@ -101,6 +101,8 @@ void Window::Init(){
         return;
     }
 
+    SDL_SetWindowMinimumSize(m_sdlWindow, 320, 320);
+
     hide();
     //SDL_HideWindow(m_window);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
@@ -116,11 +118,12 @@ void Window::Init(){
 
     glewInit();
 
+    m_game = std::make_shared<Game>();
+
     show();
 
     awake();
 
-    //self.start()
     GameLoop();
 }
 
@@ -131,11 +134,13 @@ void Window::Open() {
 
 void Window::update() {	//Empty.
     // remains empty
+    getGame()->update();
 }
 
 void Window::render() {	//Empty.
     // render calls go here.
     //std::cout << "Window::render() done" << std::endl;
+    getGame()->render();
 }
 
 void Window::handleWindowEvent( SDL_Event& e )
@@ -171,6 +176,7 @@ void Window::handleWindowEvent( SDL_Event& e )
 
             //SDL_RenderPresent( m_renderer );
             //TODO: Rewrite above line for surface render...
+            glViewport(0, 0, m_width, m_height);
 
             break;
         //Repaint on expose.
@@ -244,7 +250,7 @@ void Window::handleWindowEvent( SDL_Event& e )
 }
 
 void Window::awake(){
-
+    Node::print("Calling Window::Awake()");
 }
 
 void Window::focus(){
@@ -277,8 +283,8 @@ void Window::restore(){
     SDL_RestoreWindow( m_sdlWindow );
 }
 
-NodeManager* Window::getNodeHandler(){
-    return &m_nodeManager;
+std::shared_ptr<Game> Window::getGame(){
+    return m_game;
 }
 
 } /* namespace Golem */

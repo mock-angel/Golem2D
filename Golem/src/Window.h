@@ -10,11 +10,13 @@
 
 #include <SDL2/SDL.h>
 
-#include "NodeManager.h"
+#include "NodeController.h"
 #include "WindowEvents.h"
 #include "WindowRenderer.h"
 
 namespace Golem {
+
+class Game;
 
 class Window: public WindowEvents, public WindowRenderer {
 public:
@@ -32,10 +34,10 @@ public:
     void focus();
 
     //Shows windows contents.
-    virtual void render();
+    void render();
 
     //Updates windows contents.
-    virtual void update();
+    void update();
 
     //Window dimensions.
     int getWidth();
@@ -61,7 +63,7 @@ public:
 
     void Open();
 
-    NodeManager* getNodeHandler() override;//TODO: FIXME: Naming convention is odd.
+    //NodeController* getNodeHandler();//TODO: FIXME: Naming convention is odd.
 
 protected:
     SDL_Renderer* m_renderer = nullptr;
@@ -81,6 +83,8 @@ private:
     //Handles window events.
     void handleWindowEvent( SDL_Event& e ) override;
 
+    std::shared_ptr<Game> getGame();
+
     friend class Time;
     //friend class Application;
     //Window dimensions.
@@ -97,7 +101,9 @@ private:
     bool m_shown = true;                           //!<
     bool m_closed = false;                          //!< Says if window is still active.
 
-    NodeManager m_nodeManager;
+    //NodeController m_nodeManager;
+
+    std::shared_ptr<Game> m_game;
 
     // Window flags.
     Uint32 m_flags = SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL;
