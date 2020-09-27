@@ -11,12 +11,27 @@
 
 namespace Golem {
 
+Vector3::Vector3() {
+    x = 0;
+    y = 0;
+    z = 0;
+    // TODO Auto-generated constructor stub
+}
+
 Vector3::Vector3(float t_x, float t_y, float t_z) {
     x = t_x;
     y = t_y;
     z = t_z;
     // TODO Auto-generated constructor stub
 }
+
+/*constexpr Vector3::Vector3(const Golem::Vector3& t_other){
+
+    x = t_other.x;
+    y = t_other.y;
+    z = t_other.z;
+
+}*/
 
 float Vector3::getX() const{
     return x;

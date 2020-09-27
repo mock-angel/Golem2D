@@ -5,38 +5,38 @@
  *      Author: anantha
  */
 
-#ifndef NODEMANAGER_H_
-#define NODEMANAGER_H_
+#ifndef NODECONTROLLER_H_
+#define NODECONTROLLER_H_
 
 #include <unordered_map>
+
+#include <memory>
 
 #include "Node.h"
 #include "NodeLinkedList.h"
 
 namespace Golem {
 
-class NodeManager {
+class NodeController {
 public:
-    NodeManager();
-    virtual ~NodeManager();
+    NodeController();
+    virtual ~NodeController();
 
-    void addNode(Node* t_node);
-    void removeNode(Node* t_node);
-    void expungeNode(Node* t_node);//Remove and delete.
+    void addNode(std::shared_ptr<Node> t_node);
+    void removeNode(std::shared_ptr<Node> t_node);
 
     void updateNodes();
     void RenderNodes();
 
     void RenderComponents();
 
-    void DestroyNode(Node* t_node);
+
 
 private:
-    std::unordered_map<int, Node*> m_nodes_umap;
-
+    std::unordered_map<int, std::shared_ptr<Node>> m_nodes_umap;
     NodeLinkedList m_nodeLinkedList;
 };
 
 } /* namespace Golem */
 
-#endif /* NODEMANAGER_H_ */
+#endif /* NODECONTROLLER_H_ */

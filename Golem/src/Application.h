@@ -10,6 +10,8 @@
 
 #include "Window.h"
 
+#include <memory>
+
 namespace Golem {
 
 //template<typename T>
@@ -18,9 +20,12 @@ public:
     Application();
     virtual ~Application();
 
-    void CreateWindow(std::string t_title = "", Window* t_window = nullptr, std::pair<int, int> t_size = {592, 480});
+    void CreateWindow(std::string t_title = "", std::shared_ptr<Window> window = std::shared_ptr<Window>(), std::pair<int, int> t_size = {592, 480});
+
+    static std::shared_ptr<Window> m_createdWindow;
+    static std::weak_ptr<Window> getWindow(){return m_createdWindow;};
+
 private:
-    Window* m_createdWindow = nullptr;
 
 };
 //template class Application<Window>;

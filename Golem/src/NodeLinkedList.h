@@ -8,6 +8,8 @@
 #ifndef NODELINKEDLIST_H_
 #define NODELINKEDLIST_H_
 
+#include <memory>
+
 #include "Node.h"
 
 namespace Golem {
@@ -26,8 +28,8 @@ public:
     Node* rear();
 
 private:
-    Node* m_front = nullptr;
-    Node* m_rear = nullptr;
+    Node* m_front;
+    Node* m_rear;
 
 };
 

@@ -8,12 +8,20 @@
 #include "ComponentController.h"
 
 #include <memory>
+#include <string>
+
+#include "../Node.h"
+#include "../Debug.h"
 
 namespace Golem {
 
 ComponentController::ComponentController() {
     // TODO Auto-generated constructor stub
-
+    for(int i = 0; i < 14; i++){
+        //m_renderable.insert({i, std::list<std::shared_ptr<Component>>});
+        //m_renderable.insert({i, std::list<std::shared_ptr<Component>>()});
+        m_renderable[i] = std::list<std::weak_ptr<Component>>();
+    }
 }
 
 ComponentController::~ComponentController() {
@@ -23,22 +31,51 @@ ComponentController::~ComponentController() {
 void ComponentController::updateComponents(){
     // U
     Component* component = nullptr;
-    for(std::shared_ptr<Component> component_ptr : m_allComponents) {
+    for(std::shared_ptr<Component> &component_ptr : m_allComponents) {
         component = component_ptr.get();
 
         if(component->isUpdatable()) component->update();
     }
 }
 
-void ComponentController::renderComponents(){
-
+void ComponentController::clearAllLayers(){
+    // U
+    for(auto &r_pair: m_renderable)
+        //Node::print(std::string(std::to_string(r_pair.first)));
+        r_pair.second.clear();
 
 }
 
-void ComponentController::add(std::shared_ptr<Component>* component){
-    // Make sure only the address of the shared_ptr
-    // is passed To avoid duplication.
-    m_allComponents.emplace_back(*component);
+void ComponentController::sortRenderable(){
+    for(std::shared_ptr<Component> component_ptr : m_allComponents){
+
+        if(component_ptr->isRenderable()) {
+            m_renderable[component_ptr->sortingLayer].push_back(component_ptr);
+            Debug::log(std::to_string(component_ptr->sortingLayer) + std::string(" :: layer sorted to..."));
+        }
+        else Debug::log("Component Sorter:: Not sorted to any render layer");
+    }
+}
+
+void ComponentController::renderAll(){
+    for(SortingLayer renderLayerValue: renderOrder){
+        for(std::weak_ptr<Component> comp: m_renderable[renderLayerValue]){
+            comp.lock()->render();
+        }
+    }
+}
+
+void ComponentController::renderComponents(){
+
+    //m_renderable.clear();
+    clearAllLayers();
+    sortRenderable();
+    renderAll();
+}
+
+void ComponentController::add(std::shared_ptr<Component> component){
+
+    m_allComponents.push_back(component);
 
 }
 

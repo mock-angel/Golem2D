@@ -10,9 +10,13 @@
 
 #include <iostream>
 
-#include "NodeManager.h"
+#include <memory>
+
+#include "NodeController.h"
 
 namespace Golem {
+
+class Game;
 
 class WindowRenderer {
 public:
@@ -28,7 +32,7 @@ protected:
     int m_width = 480;
     int m_height = 480;
 
-    virtual NodeManager* getNodeHandler() = 0;
+    virtual std::shared_ptr<Game> getGame() = 0;//getNodeHandler() = 0;
 };
 
 } /* namespace Golem */

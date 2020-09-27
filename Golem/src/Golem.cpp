@@ -9,6 +9,7 @@
 #include<SDL2/SDL.h>
 
 #include <iostream>
+#include <memory>
 
 #include "Application.h"
 #include "GameWindow.h"
@@ -23,7 +24,7 @@ int main() {
 	cout << "main() started" << endl; // prints !!!Hello World!!!
 
 	Golem::Application new_app;
-	GameWindow* GameInstance = new GameWindow;
+	std::shared_ptr<Golem::Window> GameInstance = std::make_shared<GameWindow>();
 
 	new_app.CreateWindow("hello", GameInstance);
 
