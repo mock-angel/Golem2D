@@ -7,6 +7,8 @@
 
 #include "Component.h"
 
+#include <assert.h>
+
 #include "Debug.h"
 
 namespace Golem {
@@ -36,9 +38,13 @@ void Component::update(){
 }
 
 std::weak_ptr<Node> Component::getGameObject(){
-    return gameNode;
+
+    assert(!parentNode.expired());
+    return parentNode;
 }
 
-
+void Component::setOwner(std::weak_ptr<Node> t_node){
+    parentNode = t_node;
+}
 
 } /* namespace Golem */

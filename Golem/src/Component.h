@@ -9,6 +9,7 @@
 #define COMPONENT_H_
 
 #include <memory>
+#include <type_traits>
 
 #include "Components/Renderable.h"
 
@@ -17,13 +18,15 @@ namespace Golem {
 class Node;
 
 class Component: public Renderable {
-    std::weak_ptr<Node> gameNode;
+    std::weak_ptr<Node> parentNode;
 
     bool updateComponent = true;
 
     //void attatchNode(Node* node);//TODO: Revise method.
 
     friend class Node;
+
+    void setOwner(std::weak_ptr<Node> t_node);
 public:
 
     bool isUpdatable(){return updateComponent;}
@@ -34,6 +37,8 @@ public:
 
     virtual void render() override;//TODO: Test if this override will cause any problem.
     virtual void update() ;
+
+
 
     Component();
     virtual ~Component();

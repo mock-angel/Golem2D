@@ -10,31 +10,32 @@
 
 #include "../Components/Renderable.h"
 #include "../Shader.h"
+#include "../Tools/Texture.h"
 
 namespace Golem {
 
 class Window;
+class Transform;
 
 class Sprite : public Renderable {
-
+    Texture t;
     //Shader fragmentShader;
     //Shader vertexShader;
     Shader spriteShader;
 
     int _VAO;
-    float vertices_[18] = {
-        // positions         // colors
-         0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  // bottom right
-        -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  // bottom left
-         0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f   // top
-    };
-
-    float vertices[9] = {
-        // positions
+    /*float vertices[12] = {
+         0.5f,  0.5f, 0.0f,  // top right
          0.5f, -0.5f, 0.0f,  // bottom right
         -0.5f, -0.5f, 0.0f,  // bottom left
-         0.0f,  0.5f, 0.0f   // top
+        -0.5f,  0.5f, 0.0f   // top left
+    };*/
+
+    unsigned int indices[6] = {  // note that we start from 0!
+        0, 1, 3,   // first triangle
+        1, 2, 3    // second triangle
     };
+
 
     float colors[9] = {
         // colors
@@ -47,7 +48,7 @@ public:
     virtual ~Sprite();
 
     void render() override;
-
+    void render(std::weak_ptr<Transform> transform);
 
     void setShader(Shader shader){spriteShader = shader;}
 };

@@ -11,6 +11,7 @@
 #include <vector>
 #include <map>
 #include <list>
+#include <vector>
 #include <iterator>
 #include <memory>
 
@@ -46,32 +47,24 @@ public:
     static void Destroy(std::weak_ptr<Node> t_nodeToDestroy);
 
     /* NodeLinkedList Method */
-
     Node* next(){return m_next_node;};
 
     /* Node statics */
-
-    // Instantiate a new node.
-    //static Node* Instantiate(){return new Node();};
-
     template <typename T>
         static T* Instantiate(Transform transform);
-
     template <typename T>
         static T* Instantiate(Vector3 position, Quaternion rotation);
-
-
     static std::weak_ptr<Node>  Instantiate(std::weak_ptr<Node> nodeObject, Vector3 position, Quaternion rotation);
-
     static std::weak_ptr<Node>  Instantiate(Vector3 position = Vector3(), Quaternion rotation = Quaternion());
     /* Components */
 
-    std::list<std::shared_ptr<Component>> m_nodeComponents;
+
 
     template <typename T>
-        T getComponent();
-    void addComponent(std::shared_ptr<Component> component);
-    void removeComponent(std::shared_ptr<Component> component);
+    std::weak_ptr<T> getComponent();
+    void addComponent(std::weak_ptr<Component> component);
+    void removeComponent(std::weak_ptr<Component> component);
+    std::weak_ptr<Transform> getTransform();
 
 
     void setController(std::weak_ptr<NodeController> t_nodeController){
@@ -92,23 +85,30 @@ private:
     std::vector<Node*> m_childNodesVec;
     std::map<int, Node*> m_childNodesUMap;
 
+    std::vector<std::weak_ptr<Component>> m_nodeComponents;
+
     Node* m_next_node = nullptr;
     Node* m_prev_node = nullptr;
 
     void _register();
 
-    template<typename Base, typename T>
+    template<class Base, class T>
     inline bool instanceof() {
+       return std::is_base_of<Base, T>::value;
+    }
+    template<typename Base, typename T>
+    inline bool instanceof(const T*) {
        return std::is_base_of<Base, T>::value;
     }
 
     friend class NodeLinkedList;
 
-
-
+    std::weak_ptr<Node> m_self;
     std::weak_ptr<NodeController> m_nodeController;
 };
 
 } /* namespace Golem */
+
+#include "NodeT.h"
 
 #endif /* NODE_H_ */

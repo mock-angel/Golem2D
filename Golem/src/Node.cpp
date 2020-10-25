@@ -14,19 +14,27 @@
 #include <type_traits>
 
 #include "Window.h"
-#include "Transform.h"
 #include "Math/Vector3.h"
 #include "Math/Quaternion.h"
 #include "Game.h"
 #include "NodeController.h"
+#include "Res/Scripts/SpriteScript.h"
+#include "Res/Scripts/Transform.h"
 
 namespace Golem {
 
-Node::Node() {
+int nodeID = 0;
 
+std::shared_ptr<SpriteScript> ss;
+std::shared_ptr<Transform> tr;
+
+Node::Node() {
+    m_rid = nodeID++;
+    print("Node Constructor called " + std::to_string(m_rid)+ "\n");
 }
 
 Node::~Node() {
+    print("Node Destructor called " + std::to_string(m_rid)+ "\n");
     // TODO Auto-generated destructor stub
 }
 /*
@@ -86,18 +94,6 @@ void Node::Destroy(std::weak_ptr<Node> t_nodeToDestroy){
     print("Node::destroy() called (TODO!!)");
 }
 
-template <typename T>
-    T Node::getComponent(){
-        bool assertVal = !instanceof<Node, T>();
-        assert( assertVal );
-
-        std::list<std::shared_ptr<Component>>::iterator it;
-
-        for(it = m_nodeComponents.begin(); it != m_nodeComponents.end(); ++it)
-             return *it;
-                //std::is_convertible<>;
-
-    }
 /*
 template <typename T>
     T* Node::Instantiate(Transform transform){
@@ -123,7 +119,7 @@ template <typename T>
 
         T* createdNode = new T();
         //createdNode->parentTransform = transform;
-
+        print("USING THIS TO CREATE NOD0");
         return createdNode;
     };
 
@@ -135,7 +131,7 @@ std::weak_ptr<Node> Node::Instantiate(std::weak_ptr<Node> nodeObject, Vector3 po
     std::weak_ptr<Golem::NodeController> activeNodeController = Game::getNodeController();
     createdNode->setController(activeNodeController);
     activeNodeController.lock()->addNode(createdNode);
-
+    print("USING THIS TO CREATE NODE1");
     return createdNode;
 };
 
@@ -151,10 +147,13 @@ std::weak_ptr<Node> Node::Instantiate(Vector3 position , Quaternion rotation ){
     else {
         std::cout << "gw is expired\n";
     }
-
+    createdNode->m_self = createdNode;
     createdNode->setController(activeNodeController);
+    std::cout << "Node::Instantiate: Set controller of node to active controller.\n";
     activeNodeController.lock()->addNode(createdNode);
+    std::cout << "Node::Instantiate: Added node to active NodeController\n" << createdNode->m_self.lock().use_count();
     activeNodeController.lock()->updateNodes();
+    std::cout << "Node::Instantiate: Update all nodes complete: Instantiate SUCCESS\n";
     return createdNode;
 };
 
@@ -163,19 +162,55 @@ void Node::print(std::string _str){
     std::cout << _str << std::endl;
 }
 
-void Node::addComponent(std::shared_ptr<Component> component){
+void Node::addComponent(std::weak_ptr<Component> component){
+    //print("Component validity :"+ std::to_string(component || 0));
     m_nodeComponents.push_back(component);
-
-    Game::getComponentController().lock()->add(component);
+    //m_nodeComponents.push_back(component);
+    //m_nodeComponents.clear();
+    assert(m_self.lock());
+    component.lock()->setOwner(m_self);
+    Game::getComponentController().lock()->add(component.lock());
+    print("Component validity- :"+ std::to_string(component.lock() || 0));
 }
 
-void Node::removeComponent(std::shared_ptr<Component> component){
+void Node::removeComponent(std::weak_ptr<Component> component){
+    /*
     auto it = std::find(m_nodeComponents.begin(), m_nodeComponents.end(), component);
 
     if (it != m_nodeComponents.end())
         m_nodeComponents.erase(it);
 
     else print("Couldn't remove component: Component not found.");
+    */
 }
+
+std::weak_ptr<Transform> Node::getTransform(){
+
+        //bool assertVal = instanceof<Component, T>();
+        //assert( assertVal );
+    //std::shared_ptr<Golem::Component> component = std::dynamic_pointer_cast<Golem::Component>(std::make_shared<Golem::Transform>());
+    //m_nodeComponents.push_back(component);
+
+    //print("NOt WORKING");
+        //m_nodeComponents.clear();
+        //std::list<std::shared_ptr<Component>>::iterator it;
+
+        //print("NOt WORKING0");
+        print("NOt WORKING0"+ std::to_string(m_nodeComponents.size()));
+        for(auto it = m_nodeComponents.begin(); it != m_nodeComponents.end(); ++it){
+            print("Iter ...");
+            //if(instanceof<Transform>((*it).lock().get())) {
+
+            if(dynamic_cast<Transform*>((*it).lock().get())){
+                print("Found!!");
+                //std::shared_ptr<Transform> t = std::dynamic_pointer_cast<Transform>((*it).lock());
+                return std::dynamic_pointer_cast<Transform>((*it).lock());
+            }
+                //std::is_convertible<>;
+
+        }
+        print("NOt FOUND");
+        //return std::weak_ptr<Transform>();
+    }
 
 } /* namespace Golem */

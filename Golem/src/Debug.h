@@ -18,7 +18,8 @@ public:
     Debug();
     virtual ~Debug();
 
-    static void log(std::string str_);
+    static void log(const std::string& str_);
+    static void log(const std::string& str_1, const std::string& str_2);
 };
 
 } /* namespace Golem */

@@ -16,18 +16,30 @@
 
 #include <string>
 
+#include "ShaderData.h"
+
 namespace Golem {
 
 class Shader {
 public:
     //Shader(const char* vertexPath, const char* fragmentPath);
-    Shader(std::string vertexPath, std::string fragmentPath);
+    Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
     //Shader(std::string shaderPath);
     Shader();
+    Shader(ShaderData t_shaderData);
+
+    Shader(const Shader& shader){
+        ID = shader.getID();
+        isCompiled = shader.isCompiled;
+    }
 
     virtual ~Shader();
 
-    unsigned int getID(){return ID;}
+    unsigned int getID() const {return ID;}
+
+    unsigned int loadShaderFromFile(const char*  shaderPath, GLenum shaderType);
+    unsigned int loadShaderFromData(std::string& shaderCode, GLenum shaderType);
+
     /*
     void loadFragmentShader(std::string fragmentPath);
     void loadShader(std::string shaderPath, GLenum shaderType);
@@ -62,7 +74,7 @@ private:
     unsigned int ID;
     bool isCompiled = false;
 
-    void checkCompileErrors(unsigned int shader, std::string type);
+    bool checkCompileErrors(unsigned int shader, std::string type);
 
 };
 
