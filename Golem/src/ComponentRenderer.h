@@ -13,7 +13,6 @@
 
 namespace Golem {
 
-
 class ComponentRenderer {
 
 public:

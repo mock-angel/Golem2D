@@ -1,20 +1,20 @@
 /*
- * Transform3d.cpp
+ * Transform.cpp
  *
- *  Created on: 19-Aug-2020
+ *  Created on: 27-Jun-2020
  *      Author: anantha
  */
 
-#include "Transform3d.h"
+#include "Transform.h"
 
 namespace Golem {
 
-Transform3d::Transform3d() {
+Transform::Transform() {
     // TODO Auto-generated constructor stub
-
+    enableUpdates(false);
 }
 
-Transform3d::~Transform3d() {
+Transform::~Transform() {
     // TODO Auto-generated destructor stub
 }
 

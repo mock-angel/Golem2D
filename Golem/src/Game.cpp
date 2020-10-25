@@ -15,6 +15,7 @@ namespace Golem {
 std::weak_ptr<Window> Game::m_window;
 std::weak_ptr<NodeController> Game::m_nodeControllerStatic;
 std::weak_ptr<ComponentController> Game::m_componentControllerStatic;
+std::weak_ptr<ShaderLoader> Game::m_shaderControllerStatic;
 
 Game::Game() {
     Node::print("Game:: Constructing");
@@ -27,6 +28,9 @@ Game::Game() {
     m_componentController = std::shared_ptr<ComponentController>(new ComponentController());
     m_componentControllerStatic = m_componentController;
 
+    m_shaderLoader = std::shared_ptr<ShaderLoader>(new ShaderLoader());
+    m_shaderControllerStatic = m_shaderLoader;
+    m_shaderLoader->loadShaders();
 
 }
 
@@ -50,5 +54,7 @@ void Game::render() {
     /* Render Components. */
     m_componentController->renderComponents();
 }
+
+
 
 } /* namespace Golem */

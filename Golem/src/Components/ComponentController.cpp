@@ -47,8 +47,11 @@ void ComponentController::clearAllLayers(){
 }
 
 void ComponentController::sortRenderable(){
+    Debug::log("Components count::"+std::to_string(m_allComponents.size()));
+
     for(std::shared_ptr<Component> component_ptr : m_allComponents){
 
+        Node::print("Component validity :"+ std::to_string(component_ptr || 0));
         if(component_ptr->isRenderable()) {
             m_renderable[component_ptr->sortingLayer].push_back(component_ptr);
             Debug::log(std::to_string(component_ptr->sortingLayer) + std::string(" :: layer sorted to..."));
@@ -60,14 +63,16 @@ void ComponentController::sortRenderable(){
 void ComponentController::renderAll(){
     for(SortingLayer renderLayerValue: renderOrder){
         for(std::weak_ptr<Component> comp: m_renderable[renderLayerValue]){
+
             comp.lock()->render();
+            //Node::print("Component validity :"+ std::to_string(comp.lock() || 0));
         }
     }
 }
 
 void ComponentController::renderComponents(){
 
-    //m_renderable.clear();
+    Debug::log("ComponentController::Render():: ");
     clearAllLayers();
     sortRenderable();
     renderAll();

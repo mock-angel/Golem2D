@@ -16,67 +16,30 @@
 #include <iostream>
 
 #include "Shader.h"
+#include "Debug.h"
 
 namespace Golem {
 
-Shader::Shader(std::string vertexPath, std::string fragmentPath){
-    // TODO Auto-generated constructor stub
-    std::cout << "Shader::Shader started" <<std::endl;
-
-    std::string vertexCode;
-    std::string fragmentCode;
-    std::ifstream vShaderFile;
-    std::ifstream fShaderFile;
-    // ensure ifstream objects can throw exceptions:
-    vShaderFile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
-    fShaderFile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
-    std::cout << "Construct Shader"<<std::endl;
-    try
-    {
-        // open files
-        vShaderFile.open(vertexPath);
-        fShaderFile.open(fragmentPath);
-        std::stringstream vShaderStream, fShaderStream;
-        // read file's buffer contents into streams
-        vShaderStream << vShaderFile.rdbuf();
-        fShaderStream << fShaderFile.rdbuf();
-        // close file handlers
-        vShaderFile.close();
-        fShaderFile.close();
-        // convert stream into string
-        vertexCode   = vShaderStream.str();
-        fragmentCode = fShaderStream.str();
-    }
-    catch (std::ifstream::failure& e)
-    {
-        std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
-        return;
-    }
-    std::cout << "Construct Shader"<<std::endl;
-    const char* vShaderCode = vertexCode.c_str();
-    const char * fShaderCode = fragmentCode.c_str();
-    // 2. compile shaders
-    unsigned int vertex, fragment;
-    // vertex shader
-    vertex = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertex, 1, &vShaderCode, NULL);
-    glCompileShader(vertex);
-    checkCompileErrors(vertex, "VERTEX");
-    // fragment Shader
-    fragment = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragment, 1, &fShaderCode, NULL);
-    glCompileShader(fragment);
-    checkCompileErrors(fragment, "FRAGMENT");
+Shader::Shader(const char*  vertexPath, const char* fragmentPath, const char* geometryPath){
+    std::cout << "Shader::Shader Construct Shader"<<std::endl;
+    unsigned int vertex, fragment, geometry;
+    vertex = loadShaderFromFile(vertexPath, GL_VERTEX_SHADER);
+    fragment = loadShaderFromFile(fragmentPath, GL_FRAGMENT_SHADER);
+    if(geometryPath!=nullptr) geometry = loadShaderFromFile(geometryPath, GL_GEOMETRY_SHADER);
     // shader Program
     ID = glCreateProgram();
     glAttachShader(ID, vertex);
     glAttachShader(ID, fragment);
+    if(geometryPath!=nullptr) glAttachShader(ID, geometry);
+
     glLinkProgram(ID);
-    checkCompileErrors(ID, "PROGRAM");
-    // delete the shaders as they're linked into our program now and no longer necessary
     glDeleteShader(vertex);
     glDeleteShader(fragment);
+    if(geometryPath != nullptr) glDeleteShader(geometry);
+    checkCompileErrors(ID, "PROGRAM");
+    // delete the shaders as they're linked into our program now and no longer necessary
 
+    Debug::log(std::string("its ") + std::to_string(ID));
     isCompiled = true;
 }
 
@@ -84,72 +47,81 @@ Shader::Shader(){
 
 }
 
-/*
-void Shader::loadFragmentShader(std::string fragmentPath){
-
-}
-
-void Shader::loadShader(std::string shaderPath){
-
-}
-*/
-/*
-Shader::Shader(std::string shaderPath){
-
-    return;
-    std::cout << "Shader::Shader started" <<std::endl;
-    std::string shaderCode;
-
-    std::ifstream shaderFile;
-
-    // ensure ifstream objects can throw exceptions:
-    shaderFile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
-    std::cout << "Construct Shader"<<std::endl;
-    try
-    {
-        // open files
-        shaderFile.open(shaderCode);
-        std::stringstream shaderStream;
-        // read file's buffer contents into streams
-        shaderStream << shaderFile.rdbuf();
-        // close file handlers
-        shaderFile.close();
-
-        // convert stream into string
-        shaderCode   = shaderStream.str();
-    }
-    catch (std::ifstream::failure& e)
-    {
-        std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
-        return;
-    }
-    std::cout << "Construct Shader"<<std::endl;
-    const char* ShaderCode = shaderCode.c_str();
-
-    // 2. compile shaders
-    unsigned int shaderInt;
-    // vertex shader
-    shaderInt = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(shaderInt, 1, &ShaderCode, NULL);
-    glCompileShader(shaderInt);
-    checkCompileErrors(shaderInt, "VERTEX");
-
-    // shader Program
+Shader::Shader(ShaderData t_shaderData){
     ID = glCreateProgram();
-    glAttachShader(ID, shaderInt);
+    std::list<unsigned int> listOfCreatedShaders;
+    std::list<ShaderPiece> contentList = t_shaderData.getContentList();
+
+    for( ShaderPiece& shaderPiece : contentList ){
+        Debug::log(shaderPiece.content);
+        unsigned int shader = loadShaderFromData(shaderPiece.content, shaderPiece.shaderType);
+        glAttachShader(ID, shader);
+        checkCompileErrors(shader, "SHADER");
+        listOfCreatedShaders.push_back(shader);
+    }
     glLinkProgram(ID);
+    for(unsigned int shader: listOfCreatedShaders)
+        glDeleteShader(shader);
     checkCompileErrors(ID, "PROGRAM");
-    // delete the shaders as they're linked into our program now and no longer necessary
-    glDeleteShader(shaderInt);
 }
-*/
 
 Shader::~Shader() {
     // TODO Auto-generated destructor stub
 }
 
+unsigned int Shader::loadShaderFromFile(const char* shaderPath, GLenum shaderType){
+    std::string shaderCode;
+    std::ifstream shaderFile;
+    shaderFile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
+
+    try
+    {
+        // open files
+        shaderFile.open(shaderPath);
+        std::stringstream shaderStream;
+        // read file's buffer contents into streams
+        shaderStream << shaderFile.rdbuf();
+        // close file handlers
+        shaderFile.close();
+        // convert stream into string
+        shaderCode   = shaderStream.str();
+
+    }
+    catch (std::ifstream::failure& e)
+    {
+        std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
+        return -1;
+    }
+    std::cout << "Construct Shader"<<std::endl;
+    const char* cShaderCode = shaderCode.c_str();
+    //shader creation.
+    unsigned int shader = glCreateShader(shaderType);
+    glShaderSource(shader, 1, &cShaderCode, NULL);
+    glCompileShader(shader);
+    checkCompileErrors(shader, "SHADER");
+
+    return shader;
+}
+
+unsigned int Shader::loadShaderFromData(std::string& shaderCode, GLenum shaderType){
+
+    const char* cShaderCode = shaderCode.c_str();
+    //shader creation.
+    unsigned int shader = glCreateShader(shaderType);
+    glShaderSource(shader, 1, &cShaderCode, NULL);
+    glCompileShader(shader);
+    checkCompileErrors(shader, "SHADER");
+
+    return shader;
+}
+
+void attatchShader(std::string shaderPath, GLenum shaderType){
+
+}
+
 void Shader::use(){
     if(isCompiled) glUseProgram(ID);
+    else Debug::log(std::string("ERROR::SHADER_USE_ERROR in Shader::use() :Failed to use uncompiled shader program ") + std::to_string(ID));
 }
 
 // utility uniform functions
@@ -214,7 +186,7 @@ void Shader::setMat4(const std::string &name, const glm::mat4 &mat) const
 
 // utility function for checking shader compilation/linking errors.
 // ------------------------------------------------------------------------
-void Shader::checkCompileErrors(unsigned int shader, std::string type)
+bool Shader::checkCompileErrors(unsigned int shader, std::string type)
 {
     int success;
     char infoLog[1024];
@@ -236,6 +208,7 @@ void Shader::checkCompileErrors(unsigned int shader, std::string type)
             std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
         }
     }
+    return success;
 }
 
 } /* namespace Golem */

@@ -13,11 +13,14 @@
 namespace Golem {
 
 class Vector2;
+class Transform;
 
 class Vector3 {
     float x = 0, y = 0, z = 0;
 
 public:
+    friend class Transform;
+
     Vector3();
     Vector3(float t_x, float t_y, float t_z);
     //constexpr Vector3(const Golem::Vector3&);

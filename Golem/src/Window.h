@@ -86,6 +86,7 @@ private:
     std::shared_ptr<Game> getGame();
 
     friend class Time;
+    friend class Game;
     //friend class Application;
     //Window dimensions.
     //int m_width = 480;

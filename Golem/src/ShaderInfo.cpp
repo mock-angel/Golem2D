@@ -1,20 +1,20 @@
 /*
- * Transform.cpp
+ * ShaderInfo.cpp
  *
- *  Created on: 27-Jun-2020
+ *  Created on: 01-Oct-2020
  *      Author: anantha
  */
 
-#include "Transform.h"
+#include "ShaderInfo.h"
 
 namespace Golem {
 
-Transform::Transform() {
+ShaderInfo::ShaderInfo() {
     // TODO Auto-generated constructor stub
 
 }
 
-Transform::~Transform() {
+ShaderInfo::~ShaderInfo() {
     // TODO Auto-generated destructor stub
 }
 
