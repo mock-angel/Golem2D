@@ -9,30 +9,30 @@
 #define RES_SCRIPTS_SPRITESCRIPT_H_
 
 #include "../../Component.h"
-#include "../../Sprites/Sprite.h"
 #include "../../Components/Color.h"
+#include "../../Graphics/Sprites/Sprite.h"
+
+#include SCRIPT_HEADERS
 
 namespace Golem {
 
 class Transform;
 
 class SpriteScript : public Component {
-    //required Transform
-
-    Color m_color;//TODO: must be RGB
-
-    //std::shared_ptr<Transform> transform;
+    GAME_SCRIPT(SpriteScript)
 
 public:
-    SpriteScript();
+
+    Sprite sprite;
+
     virtual ~SpriteScript();
 
-    //Sprites should have a sprite controller.
-    Sprite sprite;
     void render() override;
-
     void setColor();
-    //std::weak_ptr<Transform> getTransform();
+
+private:
+    Color m_color;//TODO: must be RGB
+
 };
 
 } /* namespace Golem */

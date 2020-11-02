@@ -8,8 +8,8 @@
 #ifndef COMPONENTRENDERER_H_
 #define COMPONENTRENDERER_H_
 
-#include "Layers/RenderLayerEnum.h"
-#include "Layers/RenderLayer.h"
+#include "Graphics/Layers/RenderLayer.h"
+#include "Graphics/Layers/RenderLayerEnum.h"
 
 namespace Golem {
 

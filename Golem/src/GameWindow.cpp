@@ -10,10 +10,10 @@
 #include <iostream>
 #include <memory>
 
-#include "Shader.h"
-#include "Math/Vector2.h"
 #include "Node.h"
 #include "Component.h"
+#include "Core/Math/Vector2.h"
+#include "Graphics/Shader/Shader.h"
 #include "Res/Scripts/SpriteScript.h"
 #include "Res/Scripts/Transform.h"
 

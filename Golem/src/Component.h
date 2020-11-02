@@ -12,8 +12,33 @@
 #include <type_traits>
 
 #include "Components/Renderable.h"
+#include "Res/Scripts/ComponentsAssembly.h"
 
 namespace Golem {
+
+#define SCRIPT_HEADERS "../../Components/ComponentTypeHolder.h"
+
+// Defines what the adder script does.
+#define STATIC_SCRIPT_ADDER_FUNCTION(ClassName) \
+    static void scriptAdder(){ \
+        ComponentTypeHolder::addScript<ClassName>();\
+    }
+
+#define GAME_SCRIPT(ClassName) \
+    public: ClassName(); \
+    \
+        static ClassName createDummy(){\
+            return ClassName();\
+        }\
+        static ClassName constructNew(){\
+            return ClassName();\
+        }\
+    private: \
+        STATIC_SCRIPT_ADDER_FUNCTION(ClassName) \
+        friend class ComponentsAssembly;
+
+#define GAME_SCRIPT_DEP() {}
+
 
 class Node;
 

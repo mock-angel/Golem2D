@@ -10,11 +10,11 @@
 
 #include <memory>
 
-#include "Camera/Camera.h"
+#include "Graphics/Camera/Camera.h"
 #include "Window.h"
 #include "NodeController.h"
 #include "Components/ComponentController.h"
-#include "ShaderLoader.h"
+#include "Graphics/Shader/ShaderLoader.h"
 
 namespace Golem {
 

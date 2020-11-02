@@ -1,0 +1,4 @@
+type : Node
+GUID : 912345454
+components:
+	Transform:

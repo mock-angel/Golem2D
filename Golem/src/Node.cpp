@@ -13,9 +13,9 @@
 #include <iostream>
 #include <type_traits>
 
+#include "Core/Math/Quaternion.h"
+#include "Core/Math/Vector3.h"
 #include "Window.h"
-#include "Math/Vector3.h"
-#include "Math/Quaternion.h"
 #include "Game.h"
 #include "NodeController.h"
 #include "Res/Scripts/SpriteScript.h"

@@ -11,14 +11,18 @@
 #include <glm/gtx/quaternion.hpp>
 
 #include "../../Component.h"
-#include "../../Math/Vector2.h"
+#include "../../Core/Math/Vector2.h"
 #include "../../GLM.h"
+
+#include SCRIPT_HEADERS
 
 namespace Golem {
 
 class Node;
 
 class Transform: public Component {
+    GAME_SCRIPT(Transform)
+
 public:
     Vector3 position = Vector3(0, 0, 0);
     Vector3 scale = Vector3(1.5, 1, 1);
@@ -29,7 +33,6 @@ public:
         return model;
     }
 
-    Transform();
     virtual ~Transform();
 private:
 
@@ -46,9 +49,6 @@ private:
         //model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
         model = translationMatrix * rotationMatrix * scaleMatrix;
     }
-
-
-
 };
 
 } /* namespace Golem */

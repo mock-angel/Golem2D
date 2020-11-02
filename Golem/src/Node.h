@@ -17,8 +17,8 @@
 
 
 #include "Component.h"
-#include "Math/Quaternion.h"
-#include "Math/Vector3.h"
+#include "Core/Math/Quaternion.h"
+#include "Core/Math/Vector3.h"
 
 namespace Golem {
 
