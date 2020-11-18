@@ -60,10 +60,9 @@ public:
 
     std::weak_ptr<Node> getGameObject();
 
+    virtual void Start();
     virtual void render() override;//TODO: Test if this override will cause any problem.
     virtual void update() ;
-
-
 
     Component();
     virtual ~Component();

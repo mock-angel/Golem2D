@@ -22,7 +22,7 @@ namespace Golem {
 class ComponentController {
 
     //ComponentLayerSorter componentLayerSorter;
-
+    bool m_changed = false;
 public:
     ComponentController();
     virtual ~ComponentController();

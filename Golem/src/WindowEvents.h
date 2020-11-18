@@ -13,6 +13,10 @@
 namespace Golem {
 
 class WindowEvents {
+
+public:
+
+
 protected:
     void processEvents();
 

@@ -86,7 +86,7 @@ void Node::Awake(){
 }
 
 void Node::Update(){
-    print("Node::Update() called");
+    //print("Node::Update() called");
 }
 
 void Node::Destroy(std::weak_ptr<Node> t_nodeToDestroy){
@@ -131,12 +131,12 @@ std::weak_ptr<Node> Node::Instantiate(std::weak_ptr<Node> nodeObject, Vector3 po
     std::weak_ptr<Golem::NodeController> activeNodeController = Game::getNodeController();
     createdNode->setController(activeNodeController);
     activeNodeController.lock()->addNode(createdNode);
-    print("USING THIS TO CREATE NODE1");
+
     return createdNode;
 };
 
 std::weak_ptr<Node> Node::Instantiate(Vector3 position , Quaternion rotation ){
-    Node::print("printing node");
+
     std::shared_ptr<Node> createdNode = std::make_shared<Node>();
 
     std::weak_ptr<Golem::NodeController> activeNodeController = Game::getNodeController();
@@ -149,11 +149,9 @@ std::weak_ptr<Node> Node::Instantiate(Vector3 position , Quaternion rotation ){
     }
     createdNode->m_self = createdNode;
     createdNode->setController(activeNodeController);
-    std::cout << "Node::Instantiate: Set controller of node to active controller.\n";
     activeNodeController.lock()->addNode(createdNode);
-    std::cout << "Node::Instantiate: Added node to active NodeController\n" << createdNode->m_self.lock().use_count();
     activeNodeController.lock()->updateNodes();
-    std::cout << "Node::Instantiate: Update all nodes complete: Instantiate SUCCESS\n";
+
     return createdNode;
 };
 
@@ -196,20 +194,20 @@ std::weak_ptr<Transform> Node::getTransform(){
         //std::list<std::shared_ptr<Component>>::iterator it;
 
         //print("NOt WORKING0");
-        print("NOt WORKING0"+ std::to_string(m_nodeComponents.size()));
+
         for(auto it = m_nodeComponents.begin(); it != m_nodeComponents.end(); ++it){
-            print("Iter ...");
+
             //if(instanceof<Transform>((*it).lock().get())) {
 
             if(dynamic_cast<Transform*>((*it).lock().get())){
-                print("Found!!");
+
                 //std::shared_ptr<Transform> t = std::dynamic_pointer_cast<Transform>((*it).lock());
                 return std::dynamic_pointer_cast<Transform>((*it).lock());
             }
                 //std::is_convertible<>;
 
         }
-        print("NOt FOUND");
+
         //return std::weak_ptr<Transform>();
     }
 

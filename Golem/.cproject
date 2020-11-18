@@ -153,13 +153,17 @@
                                 								
                                 <option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.cpp.compiler.option.include.paths.1410296516" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
                                     									
-                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/Golem/include}&quot;"/>
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/include}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/include/imgui}&quot;"/>
                                     								
                                 </option>
                                 								
                                 <option id="gnu.cpp.compiler.option.dialect.flags.1901242404" name="Other dialect flags" superClass="gnu.cpp.compiler.option.dialect.flags" useByScannerDiscovery="true" value="-std=c++17" valueType="string"/>
                                 								
-                                <option id="gnu.cpp.compiler.option.other.other.1451291762" superClass="gnu.cpp.compiler.option.other.other" useByScannerDiscovery="false" value="-c -fmessage-length=0 `pkg-config --cflags --libs mono-2`" valueType="string"/>
+                                <option id="gnu.cpp.compiler.option.other.other.1451291762" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" useByScannerDiscovery="false" value="-c -fmessage-length=0" valueType="string"/>
                                 								
                                 <inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1766872455" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
                                 							
@@ -185,6 +189,10 @@
                                     									
                                     <listOptionValue builtIn="false" value="SDL2"/>
                                     									
+                                    <listOptionValue builtIn="false" value="yaml-cpp"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="mono-2.0"/>
+                                    									
                                     <listOptionValue builtIn="false" value="pthread"/>
                                     									
                                     <listOptionValue builtIn="false" value="GLEW"/>
@@ -193,7 +201,7 @@
                                     									
                                     <listOptionValue builtIn="false" value="GL"/>
                                     									
-                                    <listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="SOIL"/>
+                                    <listOptionValue builtIn="false" value="SOIL"/>
                                     								
                                 </option>
                                 								
@@ -215,7 +223,7 @@
                                     								
                                 </option>
                                 								
-                                <option id="gnu.both.asm.option.flags.345579693" superClass="gnu.both.asm.option.flags" useByScannerDiscovery="false" value="" valueType="string"/>
+                                <option id="gnu.both.asm.option.flags.345579693" name="Assembler flags" superClass="gnu.both.asm.option.flags" useByScannerDiscovery="false" value="" valueType="string"/>
                                 								
                                 <inputType id="cdt.managedbuild.tool.gnu.assembler.input.335432897" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
                                 							
@@ -225,7 +233,179 @@
                         					
                     </folderInfo>
                     					
+                    <folderInfo id="cdt.managedbuild.config.gnu.exe.release.1267056879.189805412" name="/" resourcePath="include/imgui">
+                        						
+                        <toolChain id="cdt.managedbuild.toolchain.gnu.exe.release.362893115" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.exe.release" unusedChildren="">
+                            							
+                            <targetPlatform id="cdt.managedbuild.target.gnu.platform.exe.release" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.exe.release"/>
+                            							
+                            <tool id="cdt.managedbuild.tool.gnu.archiver.base.1452100936" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base.1509456494"/>
+                            							
+                            <tool id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.679453170" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.124813482">
+                                								
+                                <option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.cpp.compiler.option.include.paths.954403878" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/Golem/include}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/include/imgui}&quot;"/>
+                                    								
+                                </option>
+                                								
+                                <option id="gnu.cpp.compiler.option.other.other.1335823598" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" useByScannerDiscovery="false" value="-c -fmessage-length=0 `pkg-config --cflags --libs freetype2` " valueType="string"/>
+                                								
+                                <inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1972977179" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
+                                							
+                            </tool>
+                            							
+                            <tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.release.670884921" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.release.30893986">
+                                								
+                                <inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1945223647" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
+                                							
+                            </tool>
+                            							
+                            <tool id="cdt.managedbuild.tool.gnu.c.linker.exe.release.1694370018" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.release.958266020"/>
+                            							
+                            <tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.release.1301586881" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.release.1484044927"/>
+                            							
+                            <tool id="cdt.managedbuild.tool.gnu.assembler.exe.release.1708131834" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.exe.release.1688424725">
+                                								
+                                <option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.both.asm.option.include.paths.611259457" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/Golem/include}&quot;"/>
+                                    								
+                                </option>
+                                								
+                                <inputType id="cdt.managedbuild.tool.gnu.assembler.input.1151616466" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+                                							
+                            </tool>
+                            						
+                        </toolChain>
+                        					
+                    </folderInfo>
+                    					
+                    <folderInfo id="cdt.managedbuild.config.gnu.exe.release.1267056879.2115149698" name="/" resourcePath="src/Core/ScriptingEngine">
+                        						
+                        <toolChain id="cdt.managedbuild.toolchain.gnu.exe.release.2090354380" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.exe.release" unusedChildren="">
+                            							
+                            <targetPlatform id="cdt.managedbuild.target.gnu.platform.exe.release" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.exe.release"/>
+                            							
+                            <tool id="cdt.managedbuild.tool.gnu.archiver.base.855685425" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base.1509456494"/>
+                            							
+                            <tool id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.602276088" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.124813482">
+                                								
+                                <option id="gnu.cpp.compiler.option.other.other.164831758" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" useByScannerDiscovery="false" value="-c -fmessage-length=0  -rdynamic `pkg-config --cflags --libs mono-2`" valueType="string"/>
+                                								
+                                <inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.2115190875" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
+                                							
+                            </tool>
+                            							
+                            <tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.release.1207143631" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.release.30893986">
+                                								
+                                <inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.555059886" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
+                                							
+                            </tool>
+                            							
+                            <tool id="cdt.managedbuild.tool.gnu.c.linker.exe.release.131513460" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.release.958266020"/>
+                            							
+                            <tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.release.576261167" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.release.1484044927"/>
+                            							
+                            <tool id="cdt.managedbuild.tool.gnu.assembler.exe.release.1424350021" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.exe.release.1688424725">
+                                								
+                                <inputType id="cdt.managedbuild.tool.gnu.assembler.input.1009462710" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+                                							
+                            </tool>
+                            						
+                        </toolChain>
+                        					
+                    </folderInfo>
+                    					
+                    <folderInfo id="cdt.managedbuild.config.gnu.exe.release.1267056879.160455064" name="/" resourcePath="src/Core/ScriptingEngine/Mono">
+                        						
+                        <toolChain id="cdt.managedbuild.toolchain.gnu.exe.release.1839026033" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.exe.release" unusedChildren="">
+                            							
+                            <targetPlatform id="cdt.managedbuild.target.gnu.platform.exe.release" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.exe.release"/>
+                            							
+                            <tool id="cdt.managedbuild.tool.gnu.archiver.base.814215139" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base.1509456494"/>
+                            							
+                            <tool id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.631110700" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.124813482">
+                                								
+                                <option id="gnu.cpp.compiler.option.other.other.1150177407" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" useByScannerDiscovery="false" value="-c -fmessage-length=0  -rdynamic `pkg-config --cflags --libs mono-2`" valueType="string"/>
+                                								
+                                <inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1267607058" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
+                                							
+                            </tool>
+                            							
+                            <tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.release.779568603" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.release.30893986">
+                                								
+                                <inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.62853702" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
+                                							
+                            </tool>
+                            							
+                            <tool id="cdt.managedbuild.tool.gnu.c.linker.exe.release.457127503" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.release.958266020"/>
+                            							
+                            <tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.release.1729514560" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.release.1484044927"/>
+                            							
+                            <tool id="cdt.managedbuild.tool.gnu.assembler.exe.release.738491512" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.exe.release.1688424725">
+                                								
+                                <inputType id="cdt.managedbuild.tool.gnu.assembler.input.1742371678" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+                                							
+                            </tool>
+                            						
+                        </toolChain>
+                        					
+                    </folderInfo>
+                    					
+                    <fileInfo id="cdt.managedbuild.config.gnu.exe.release.1267056879.286079427" name="Yaml.cpp" rcbsApplicability="disable" resourcePath="src/Core/Parser/Yaml.cpp" toolsToInvoke="cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.130993932.1319716294">
+                        						
+                        <tool id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.130993932.1319716294" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.124813482">
+                            							
+                            <option id="gnu.cpp.compiler.option.other.other.1357774846" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" useByScannerDiscovery="false" value="-c -fmessage-length=0 -lyaml-cpp" valueType="string"/>
+                            							
+                            <inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1776671298" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
+                            						
+                        </tool>
+                        					
+                    </fileInfo>
+                    					
+                    <folderInfo id="cdt.managedbuild.config.gnu.exe.release.1267056879.474404686" name="/" resourcePath="src/Core/ProjectManager">
+                        						
+                        <toolChain id="cdt.managedbuild.toolchain.gnu.exe.release.665717990" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.exe.release" unusedChildren="">
+                            							
+                            <targetPlatform id="cdt.managedbuild.target.gnu.platform.exe.release" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.exe.release"/>
+                            							
+                            <tool id="cdt.managedbuild.tool.gnu.archiver.base.1315801792" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base.1509456494"/>
+                            							
+                            <tool id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.543249554" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.124813482">
+                                								
+                                <option id="gnu.cpp.compiler.option.other.other.1945579090" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" useByScannerDiscovery="false" value="-c -fmessage-length=0  -lyaml-cpp" valueType="string"/>
+                                								
+                                <inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1788527345" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
+                                							
+                            </tool>
+                            							
+                            <tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.release.333050184" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.release.30893986">
+                                								
+                                <inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1744007194" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
+                                							
+                            </tool>
+                            							
+                            <tool id="cdt.managedbuild.tool.gnu.c.linker.exe.release.1211863699" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.release.958266020"/>
+                            							
+                            <tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.release.1379170612" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.release.1484044927"/>
+                            							
+                            <tool id="cdt.managedbuild.tool.gnu.assembler.exe.release.1099747209" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.exe.release.1688424725">
+                                								
+                                <inputType id="cdt.managedbuild.tool.gnu.assembler.input.51782105" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+                                							
+                            </tool>
+                            						
+                        </toolChain>
+                        					
+                    </folderInfo>
+                    					
                     <sourceEntries>
+                        						
+                        <entry excluding="misc|backends|backends/vulkan|examples" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="include/imgui"/>
                         						
                         <entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
                         					

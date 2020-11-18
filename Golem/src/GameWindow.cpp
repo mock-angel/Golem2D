@@ -16,7 +16,8 @@
 #include "Graphics/Shader/Shader.h"
 #include "Res/Scripts/SpriteScript.h"
 #include "Res/Scripts/Transform.h"
-
+#include "Res/Scripts/CameraScript.h"
+#include "imgui.h"
 
 GameWindow::GameWindow() {
     // TODO Auto-generated constructor stub
@@ -54,10 +55,16 @@ void GameWindow::awake(){
     std::shared_ptr<Golem::Component> component = std::dynamic_pointer_cast<Golem::Component>(std::make_shared<Golem::Transform>());
     n.lock()->addComponent(component);
 
+    std::shared_ptr<Golem::Component> c = std::dynamic_pointer_cast<Golem::Component>(std::make_shared<Golem::CameraScript>());
+    n.lock()->addComponent(c);
 }
 
 void GameWindow::render(){
-
-
-
+/*
+    ImGui::Begin("Hello, world!");
+    if (ImGui::Button("Button"))
+    {
+    //... my_code
+    }
+    ImGui::End();*/
 }

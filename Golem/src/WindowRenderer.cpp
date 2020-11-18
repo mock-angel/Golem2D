@@ -16,6 +16,10 @@
 
 #include "Game.h"
 
+#include "imgui_impl_opengl3.h"
+#include "imgui_impl_sdl.h"
+#include "imgui.h"
+
 namespace Golem {
 
 WindowRenderer::~WindowRenderer(){
@@ -23,6 +27,8 @@ WindowRenderer::~WindowRenderer(){
 }
 
 void WindowRenderer::render_sequence(){
+
+
     glClearColor(0.2, 0.3, 0.3, 1.0);
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
     //std::cout<<m_width;

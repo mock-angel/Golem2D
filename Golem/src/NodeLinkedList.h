@@ -28,8 +28,8 @@ public:
     Node* rear();
 
 private:
-    Node* m_front;
-    Node* m_rear;
+    Node* m_front = nullptr;
+    Node* m_rear = nullptr;
 
 };
 

@@ -78,7 +78,7 @@ Sprite::Sprite()  : Renderable(){
 }
 
 void Sprite::render(){
-    Debug::log("Sprite::render() called");
+    //Debug::log("Sprite::render() called");
 
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -103,8 +103,7 @@ void Sprite::render(){
 
 
 void Sprite::render(std::weak_ptr<Transform> transform){
-    Debug::log("Sprite::render() called");
-
+    //Debug::log("Sprite::render() called");
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 

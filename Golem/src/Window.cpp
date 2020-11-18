@@ -13,9 +13,18 @@
 #include <ctime>
 #include <iostream>
 
+#include <typeindex>
+#include <unordered_map>
+
 #include "Window.h"
+
 #include "Time.h"
 #include "Game.h"
+#include "Core/Gui.h"
+
+#include "imgui_impl_opengl3.h"
+#include "imgui_impl_sdl.h"
+#include "imgui.h"
 
 using namespace std;
 
@@ -26,6 +35,9 @@ Window* Window::Instance = nullptr;
 Window::Window() {
     // TODO Auto-generated constructor stub
     Instance = this;
+}
+Window* Window::getWindow(){
+    return Instance;
 }
 
 Window::~Window() {
@@ -47,12 +59,14 @@ void Window::GameLoop() {
 
     long fps_count = 0;
 
+    bool show_demo_window = true;
+
+    m_game->start();
+
     while(!m_closed){
-        //Start time update chunk.
+        //--Time update chunk.
         prev_time = current_time;
-
         current_time = std::chrono::system_clock::now();
-
         elapsed_seconds = current_time-start_time;
         deltaTime_seconds = current_time-prev_time;
 
@@ -63,27 +77,42 @@ void Window::GameLoop() {
 
         if(fps_update_time < elapsed_seconds){
             fps_update_time++;
-
             Time::framesPerSecond(fps_count);
             Time::timePerFrame(1.0/fps_count);
-
             std::cout<<Time::framesPerSecond()<<"fps total "<<Time::time()<<" seconds"<<endl;
             fps_count = 0;
         }
-        //End of Time update chunk.
+        //---End of Time update chunk.
 
-        processEvents();
+        {//----Events----//
+            processEvents();
+        }
 
-        update();
-        //m_nodeManager.updateNodes();
+        Gui::NewFrame();
 
-        if(m_shown and not m_minimized)
-            render_sequence();
+        {//----Update----//
+            update();
+        }
+
+        {//----Render----//
+            if (show_demo_window)
+                ImGui::ShowDemoWindow(&show_demo_window);
+
+            //Gui::RenderGUI();
+            ImGui::Render();
+
+            if(m_shown and !m_minimized){
+                render_sequence();
+                ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+            }
+        }
 
         SDL_GL_SwapWindow(m_sdlWindow);
     }
 
     std::cout << "Window::GameLoop() stopped at " <<Time::time()<<"s"<< std::endl;
+
+    Cleanup();
 }
 
 void Window::Init(){
@@ -101,6 +130,8 @@ void Window::Init(){
         return;
     }
 
+    m_windowId = SDL_GetWindowID(m_sdlWindow);
+
     SDL_SetWindowMinimumSize(m_sdlWindow, 320, 320);
 
     hide();
@@ -110,13 +141,15 @@ void Window::Init(){
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
     m_context = SDL_GL_CreateContext(m_sdlWindow);
-    SDL_GL_SetSwapInterval(1);
+    SDL_GL_SetSwapInterval(0);
 
     //self.glSetViewport()
 
     //self.title = self.m_title
 
     glewInit();
+
+    Gui::Init(m_sdlWindow, m_sdlWindow);
 
     m_game = std::make_shared<Game>();
 
@@ -125,11 +158,22 @@ void Window::Init(){
     awake();
 
     GameLoop();
+
+    Cleanup();
 }
 
 void Window::Open() {
     Init();
     //GameLoop();
+}
+
+void Window::InitImGUI() {
+
+    //GameLoop();
+}
+
+void Window::Cleanup() {
+    Gui::Cleanup();
 }
 
 void Window::update() {	//Empty.
@@ -148,7 +192,7 @@ void Window::handleWindowEvent( SDL_Event& e )
     //TODO: remove unnecessary window ID check.
 
     //If an event was detected for this window
-    if( e.type == SDL_WINDOWEVENT)// && e.window.windowID == m_windowId)
+    if( e.type == SDL_WINDOWEVENT && e.window.windowID == m_windowId)// && e.window.windowID == m_windowId)
     //TODO: Avoid unnecessarity searching and calling for events from window.
     {
         //Caption update flag.
@@ -281,6 +325,13 @@ void Window::minimise(){
 void Window::restore(){
     //m_minimized = false;
     SDL_RestoreWindow( m_sdlWindow );
+}
+
+int Window::getWidth(){
+    return m_width;
+}
+int Window::getHeight(){
+    return m_height;
 }
 
 std::shared_ptr<Game> Window::getGame(){

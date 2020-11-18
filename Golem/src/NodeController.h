@@ -9,7 +9,6 @@
 #define NODECONTROLLER_H_
 
 #include <unordered_map>
-
 #include <memory>
 
 #include "Node.h"

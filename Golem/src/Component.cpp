@@ -27,7 +27,9 @@ void Component::enableUpdates(bool value){
     updateComponent = value;
 }
 
+void Component::Start(){
 
+}
 
 void Component::render(){
     Debug::log("Component::render() executed");

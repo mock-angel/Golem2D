@@ -66,7 +66,7 @@ void NodeController::updateNodes(){
 
     }
 
-    Node::print(std::string("NodeController::update(): nodecount ") + std::to_string(nodeCount) );
+    //Node::print(std::string("NodeController::update(): nodecount ") + std::to_string(nodeCount) );
 }
 
 void NodeController::RenderNodes(){

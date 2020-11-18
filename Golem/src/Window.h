@@ -24,7 +24,7 @@ public:
     virtual ~Window();
 
     static Window* Instance;
-
+    static Window* getWindow();
     //bool open();
 
     //Handles window events.
@@ -77,8 +77,9 @@ private:
     unsigned int m_windowId;
 
     void Init();
-
+    void InitImGUI();
     void GameLoop();
+    void Cleanup();
 
     //Handles window events.
     void handleWindowEvent( SDL_Event& e ) override;

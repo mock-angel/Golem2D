@@ -7,6 +7,9 @@
 
 #include "NodeLinkedList.h"
 
+#include "Debug.h"
+
+
 namespace Golem {
 
 NodeLinkedList::NodeLinkedList() {
@@ -20,7 +23,7 @@ NodeLinkedList::~NodeLinkedList() {
 void NodeLinkedList::insert(Node* node) {
 
     if(!isEmpty()){
-
+        Debug::log("isempty");
         m_rear->m_next_node = node;
         node->m_prev_node = m_rear;
         //node->m_next_node = nullptr;

@@ -1,0 +1,13 @@
+/home/anantha/Desktop/Golem2D/MonoEngine/bin/Debug/netcoreapp3.1/MonoEngine
+/home/anantha/Desktop/Golem2D/MonoEngine/bin/Debug/netcoreapp3.1/MonoEngine.deps.json
+/home/anantha/Desktop/Golem2D/MonoEngine/bin/Debug/netcoreapp3.1/MonoEngine.runtimeconfig.json
+/home/anantha/Desktop/Golem2D/MonoEngine/bin/Debug/netcoreapp3.1/MonoEngine.runtimeconfig.dev.json
+/home/anantha/Desktop/Golem2D/MonoEngine/bin/Debug/netcoreapp3.1/MonoEngine.dll
+/home/anantha/Desktop/Golem2D/MonoEngine/bin/Debug/netcoreapp3.1/MonoEngine.pdb
+/home/anantha/Desktop/Golem2D/MonoEngine/obj/Debug/netcoreapp3.1/MonoEngine.csprojAssemblyReference.cache
+/home/anantha/Desktop/Golem2D/MonoEngine/obj/Debug/netcoreapp3.1/MonoEngine.AssemblyInfoInputs.cache
+/home/anantha/Desktop/Golem2D/MonoEngine/obj/Debug/netcoreapp3.1/MonoEngine.AssemblyInfo.cs
+/home/anantha/Desktop/Golem2D/MonoEngine/obj/Debug/netcoreapp3.1/MonoEngine.csproj.CoreCompileInputs.cache
+/home/anantha/Desktop/Golem2D/MonoEngine/obj/Debug/netcoreapp3.1/MonoEngine.dll
+/home/anantha/Desktop/Golem2D/MonoEngine/obj/Debug/netcoreapp3.1/MonoEngine.pdb
+/home/anantha/Desktop/Golem2D/MonoEngine/obj/Debug/netcoreapp3.1/MonoEngine.genruntimeconfig.cache
